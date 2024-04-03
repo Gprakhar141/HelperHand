@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cloudinary": "^2.1.0"
+  }
+}

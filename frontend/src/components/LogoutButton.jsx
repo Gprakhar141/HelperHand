@@ -2,6 +2,7 @@ import { Button } from '@chakra-ui/react'
 import { useSetRecoilState } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
+import { FiLogOut } from "react-icons/fi"
 
 export default function LogoutButton() {
     const setUser = useSetRecoilState(userAtom)
@@ -29,7 +30,7 @@ export default function LogoutButton() {
   
     return (
     <Button position={"fixed"} top={"30px"} right={"30px"} size={"sm"} onClick={handleLogout}>
-        Logout
+        <FiLogOut size={20}/>
     </Button>
   )
 }
