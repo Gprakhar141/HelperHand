@@ -19,6 +19,7 @@ import useShowToast from '../../hooks/useShowToast'
 
 export default function UpdateProfilePage() {
   const [user,setUser] = useRecoilState(userAtom)
+  const [updating,setUpdating] = useState(false)
   //console.log(user);
   const [inputs,setInputs] = useState({
     name: user.name,
@@ -39,6 +40,8 @@ export default function UpdateProfilePage() {
     e.preventDefault();
     //console.log(inputs);
 
+    if(updating) return
+    setUpdating(true)
     try {
       const res = await fetch(`/api/users/update/${user._id}` ,{
         method: "PUT",
@@ -57,6 +60,8 @@ export default function UpdateProfilePage() {
       localStorage.setItem("user-threads", JSON.stringify(data))
     } catch (error) {
       showToast("Error", error, "error")
+    } finally {
+      setUpdating(false)
     }
   }
 
@@ -152,9 +157,10 @@ export default function UpdateProfilePage() {
             color={'white'}
             w="full"
             _hover={{
-              bg: 'blue.500',
+              bg: 'green.500',
             }}
-            type='submit'>
+            type='submit'
+            isLoading={updating}>
             Submit
           </Button>
         </Stack>
