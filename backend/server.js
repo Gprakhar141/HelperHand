@@ -22,7 +22,7 @@ cloudinary.config({
   });  
 
 //Middlewares
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));
 app.use(express.json());//To parse json data in the req.body
 app.use(express.urlencoded({extended: true}))//To parse form data in the req.body(even nested objects)
 app.use(cookieParser());

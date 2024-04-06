@@ -43,6 +43,7 @@ export default function UserHeader({user}) {
         showToast("Error", "Please login to follow", "error")
         return
       }
+      if(updating) return
 
       setUpdating(true)
       try {
