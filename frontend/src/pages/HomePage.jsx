@@ -20,7 +20,6 @@ export default function HomePage() {
           return
         }
         setPosts(data)
-        console.log(posts);
       } catch (error) {
         showToast("Error",error.message,"error")
       } finally {
