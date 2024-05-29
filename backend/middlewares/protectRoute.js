@@ -5,18 +5,24 @@ const protectRoute = async(req,res,next) => {
     try {
         const token = req.cookies.authToken;
 
-        if(!token) res.status(401).json({message: "Unauthorised"})
+        if(!token) return res.status(401).json({message: "Unauthorised"})
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await User.findById(decoded.userId).select("-password")
 
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
         req.user = user;
 
         next();
     } catch (error) {
-        res.status(500).json({message: error.message})
-        console.log("Error in protectRoute: ", error.message);
+        console.error("Error in protectRoute: ", error.message);
+        if (!res.headersSent) {
+            res.status(500).json({ message: error.message });
+        }
     }
 }
 
