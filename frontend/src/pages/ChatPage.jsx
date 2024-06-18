@@ -20,6 +20,29 @@ export default function ChatPage() {
     const showToast = useShowToast()
     const { socket, onlineUsers } = useSocket()
     
+
+    useEffect(() => {
+        socket?.on("newMessage", (message) => {
+            setConversations((prev) => {
+                const updatedConversations = prev.map(conversation => {
+                    if (conversation._id === message.conversationId) {
+                        return {
+                            ...conversation,
+                            lastMessage: {
+                                text: message.text,
+                                sender: message.sender,
+                            }
+                        }
+                    }
+                    return conversation
+                })
+                return updatedConversations
+            })
+        })
+
+        return () => socket?.off("newMessage")
+    }, [socket, selectedConversation, setConversations])
+
     useEffect(() => {
         socket?.on("messagesSeen", ({ conversationId }) => {
             setConversations(prev => {
