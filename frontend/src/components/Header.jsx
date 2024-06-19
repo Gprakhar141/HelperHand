@@ -1,4 +1,4 @@
-import { Button, Flex, Image, Link, useColorMode } from '@chakra-ui/react'
+import { Button, Flex, Image, Link, Text, useColorMode } from '@chakra-ui/react'
 import React from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import userAtom from '../../atoms/userAtom'
@@ -31,13 +31,16 @@ export default function Header() {
             </Link>
         )}
 
-        <Image
+        {/* <Image
             cursor={"pointer"}
             alt = 'logo'
             w={6}
             src = {colorMode === "dark" ? "/light-logo.svg" : "/dark-logo.svg"}
             onClick={toggleColorMode}
-        />
+        /> */}
+            <Flex cursor={"pointer"} onClick={toggleColorMode}>
+                <Text ml={4} color={colorMode === "dark" ? "gray.200" : "gray.700"} fontWeight={"bold"} fontSize={"20px"} userSelect={"none"}>HelperHand</Text>
+            </Flex>
 
         {user && (
             <Flex alignItems={"center"} gap={4}>
