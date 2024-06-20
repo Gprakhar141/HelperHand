@@ -1,7 +1,6 @@
 import { Avatar, Text, Box, Flex, VStack, useToast, Button } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 import {
   Menu,
@@ -16,14 +15,13 @@ import {
 import { Portal } from "@chakra-ui/react";
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
-import { useState } from "react";
 import useShowToast from "../../hooks/useShowToast";
+import useFollowUnfollow from "../../hooks/useFollowUnfollow";
 
 export default function UserHeader({user}) {
-    const showToast = useShowToast()
+    const toast = useToast()
     const currentUser = useRecoilValue(userAtom)  //User currently logged in
-    const [following,setFollowing] = useState(user.followers.includes(currentUser?._id))
-    const [updating, setUpdating] = useState(false)
+    const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
 
     const copyURL = () => {
         const currentURL = window.location.href;
@@ -36,44 +34,6 @@ export default function UserHeader({user}) {
                 isClosable: true,
               })
         })
-    }
-
-    const handleFollowUnFollow = async() => {
-      if(!currentUser) {
-        showToast("Error", "Please login to follow", "error")
-        return
-      }
-      if(updating) return
-
-      setUpdating(true)
-      try {
-        const res = await fetch(`/api/users/follow/${user._id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "/application/json"
-          }
-        })
-        const data = await res.json()
-        //console.log(data);
-        if(data.error) {
-          showToast("Error",data.error,"error")
-          return
-        }
-
-        if(following) {
-          showToast("Success", `Unfollowed ${user.name}`, "success")
-          user.followers.pop()//Simulate removing from followers(only visible on frontend)
-        } else {
-          showToast("Success", `Followed ${user.name}`, "success")
-          user.followers.push(currentUser?._id)//simulate adding to followers(only visible on frontend)
-        }
-
-        setFollowing(!following)
-      } catch (error) {
-        showToast("Error",error,"error")
-      } finally {
-        setUpdating(false)
-      }
     }
 
     return (
@@ -113,7 +73,7 @@ export default function UserHeader({user}) {
       )}
 
       {currentUser?._id !== user._id && (
-          <Button size={"sm"} onClick={handleFollowUnFollow} isLoading={updating}>
+          <Button size={"sm"} onClick={handleFollowUnfollow} isLoading={updating}>
             {following? "Unfollow" : "Follow"}
           </Button>
       )}
