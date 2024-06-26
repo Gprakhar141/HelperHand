@@ -1,4 +1,4 @@
-import { Avatar, Text, Box, Flex, VStack, useToast, Button } from "@chakra-ui/react";
+import { Avatar, Text, Box, Flex, VStack, useToast, Button, useColorMode } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { CgMoreO } from "react-icons/cg";
@@ -21,7 +21,8 @@ import useFollowUnfollow from "../../hooks/useFollowUnfollow";
 export default function UserHeader({user}) {
     const toast = useToast()
     const currentUser = useRecoilValue(userAtom)  //User currently logged in
-    const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
+  const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
+  const {colorMode} = useColorMode()
 
     const copyURL = () => {
         const currentURL = window.location.href;
@@ -99,12 +100,9 @@ export default function UserHeader({user}) {
         </Flex>
       </Flex>
 
-      <Flex w={"full"}>
-        <Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb="3" cursor={"pointer"}>
-          <Text fontWeight={"bold"}>Posts</Text>
-        </Flex>
-        <Flex flex={1} borderBottom={"1px solid gray"} justifyContent={"center"} color={"gray.light"} pb="3" cursor={"pointer"}>
-          <Text fontWeight={"bold"}>Replies</Text>
+      <Flex w={"full"} justifyContent={"center"} borderBottom={colorMode === "dark" ? "1.5px solid white" : "1.5px solid black"}>
+        <Flex pb="3" cursor={"pointer"}>
+          <Text fontWeight={"bold"}>Doubts</Text>
         </Flex>
       </Flex>
     </VStack>

@@ -106,7 +106,7 @@ const Actions = ({ post }) => {
 
   return (
     <Flex flexDirection="column">
-      <Flex gap={3} my={2} onClick={(e) => e.preventDefault()}>
+      <Flex gap={7} my={2} onClick={(e) => e.preventDefault()}>
         <svg
           aria-label="Like"
           color={liked ? "rgb(237, 73, 86)" : ""}
@@ -144,17 +144,14 @@ const Actions = ({ post }) => {
           ></path>
         </svg>
         
-        <RepostSVG/>
-        <ShareSVG/>
-        
       </Flex>
       <Flex gap={2} alignItems={"center"}>
             <Text color={"gray.light"} fontSize="sm">
-              {post.replies.length} replies
+              {post.replies.length} {post.replies.length>1 ? "replies": "reply"}
             </Text>
             <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
             <Text color={"gray.light"} fontSize="sm">
-              {post.likes.length} likes
+              {post.likes.length} {post.likes.length>1 ? "upvotes" : "upvote"}
             </Text>
           </Flex>
 

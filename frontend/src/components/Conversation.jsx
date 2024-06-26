@@ -10,7 +10,7 @@ export default function Conversation({ conversation, isOnline }) {
   const currentUser = useRecoilValue(userAtom)
   const lastMessage = conversation.lastMessage
   const [selectedConversation, setSelectedConversation] = useRecoilState(selectedConversationAtom)
-  const colorMode = useColorMode()
+  const {colorMode} = useColorMode()
 
   return (
     <Flex
