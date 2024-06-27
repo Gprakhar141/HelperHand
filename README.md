@@ -1,5 +1,5 @@
 # HelperHand
-To provide a fruitful environment to college students to share college related doubts and queries.
+A web platform built to provide a fruitful environment to college students to share college related doubts and queries.
 Users can ask doubts, answer existing doubts and if needed, users may engage in further conversation via the real time chat utility.
 
 
