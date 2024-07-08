@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './db/connectDB.js';
@@ -16,6 +17,7 @@ connectDB();
 
 
 const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
 cloudinary.config({ 
     cloud_name: 'dl7m3kryk', 
@@ -33,5 +35,17 @@ app.use(cookieParser());
 app.use("/api/users",userRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/messages", messageRoutes)
+
+//http://localhost:5000 => backend,frontend
+
+//Serve static assets(from frontend/dist) only in production
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+	// react app
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
 
 server.listen(PORT,()=>{console.log(`Server started at port ${PORT}`);})
